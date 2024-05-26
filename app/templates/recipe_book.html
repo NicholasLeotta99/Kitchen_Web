@@ -8,13 +8,13 @@ Recipe Book
 {% block content %}
 <div class="container">
     <h2>Recipe Book</h2>
-    <ul>
+    <div class="card-container">
     {% for recipe in recipes %}
-        <li>
+        <div class="card">
             <h3>{{ recipe.name }}</h3>
             <p>{{ recipe.description }}</p>
-        </li>
+        </div>
     {% endfor %}
-    </ul>
+    </div>
 </div>
 {% endblock %}
