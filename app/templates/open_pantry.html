@@ -6,31 +6,53 @@ Open Pantry
 
 {% block content %}
 <section id="showcase">
-    <div class="form-container">
-        <h1>Pantry</h1>
-        <button class='button' id="delete-button">Delete</button>
-        <table class="form-content">
-            <thead>
-                <tr>
-                    <th></th> <!-- Add a column for the checkboxes -->
-                    <th>Item Name</th>
-                    <th>Quantity</th>
-                    <!-- Add more columns as needed -->
-                </tr>
-            </thead>
-            <tbody>
-                {% for item in items %}
-                <tr>
-                    <td><input type="checkbox" class="delete-checkbox" data-item-id="{{ item.id }}"></td>
-                    <td>{{ item.name }}</td>
-                    <td>{{ item.quantity }}</td>
-                    <!-- Add more cells as needed -->
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+    <div id="main-content">
+        <div id='myTable' class="form-container">
+            <h1>Pantry</h1>
+            <div class="button_header">
+                <button class='button' id="openModal">Add</button>
+                <button class='button' id="delete-button">Delete</button>
+            </div>
+            <table class="form-content">
+                <thead>
+                    <tr>
+                        <th></th> <!-- Add a column for the checkboxes -->
+                        <th>Item Name</th>
+                        <th>Quantity</th>
+                        <!-- Add more columns as needed -->
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in items %}
+                    <tr>
+                        <td><input type="checkbox" class="delete-checkbox" data-item-id="{{ item.id }}"></td>
+                        <td>{{ item.name }}</td>
+                        <td>{{ item.quantity }}</td>
+                        <!-- Add more cells as needed -->
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
     </div>
 </section>
+<div id="myModal" class="modal">
+    <div class="modal-content">
+        <h1>Enter Groceries</h1>
+        <form id="groceries-form" action="/enter_groceries" method="post" class="form-content">
+            <label for="name">Item Name:</label><br>
+            <input type="text" id="name" name="name" required><br>
+            <label for="quantity">Quantity:</label><br>
+            <input type="number" id="quantity" name="quantity" required><br>
+            <label for="unit">Unit:</label><br>
+            <input type="text" id="unit" name="unit" required><br>
+            <label for="expiration_date">Expiration Date (optional):</label><br>
+            <input type="date" id="expiration_date" name="expiration_date"><br>
+            <button class='button' type="submit">Submit</button>
+        </form>
+        <span class="close">&times;</span>
+    </div>
+</div>
 <script>
     document.getElementById('delete-button').addEventListener('click', async () => {
         // Get all checkboxes
@@ -59,5 +81,39 @@ Open Pantry
             console.error('Failed to delete items:', await response.text());
         }
     });
+
+    document.getElementById('groceries-form').addEventListener('submit', function(event) {
+        event.preventDefault();
+        var formData = new FormData(this);
+        fetch(this.action, {
+            method: this.method,
+            body: formData,
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest'
+            }
+        })
+        .then(response => response.text())
+        .then(data => {
+            alert(data);
+            this.reset(); // clear the form 
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+    });
+
+    // Open the modal, moving the main content to the right
+    document.getElementById('openModal').addEventListener('click', function() {
+        document.getElementById('myModal').style.display = 'block';
+        document.getElementById('myModal').style.width = '50%';
+        document.getElementById('main-content').style.marginLeft = "50%";
+    });
+
+    document.getElementsByClassName('close')[0].addEventListener('click', function() {
+        document.getElementById('myModal').style.display = 'none';
+        document.getElementById('myModal').style.width = '0';
+        document.getElementById('main-content').style.marginLeft = "0";
+    });
+
     </script>
 {% endblock %}

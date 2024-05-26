@@ -6,7 +6,7 @@ Date: 2024-05-25
 '''
 
 
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
 import os
 
@@ -42,18 +42,17 @@ def open_pantry():
     items = get_all_items()
     return render_template('open_pantry.html', items=items)
 
-@app.route('/enter_groceries', methods=['GET', 'POST'])
+@app.route('/enter_groceries', methods=['POST'])
 def enter_groceries():
-    if request.method == 'POST':
-        name = request.form['name']
-        quantity = request.form['quantity']
-        unit = request.form['unit']
-        expiration_date = request.form['expiration_date'] if request.form['expiration_date'] else None
-        new_item = PantryItem(name=name, quantity=quantity, unit=unit, expiration_date=expiration_date)
-        db.session.add(new_item)
-        db.session.commit()
-        return 'Item added to pantry'
-    return render_template('enter_groceries.html')
+    name = request.form['name']
+    quantity = request.form['quantity']
+    unit = request.form['unit']
+    expiration_date = request.form['expiration_date'] if request.form['expiration_date'] else None
+    new_item = PantryItem(name=name, quantity=quantity, unit=unit, expiration_date=expiration_date)
+    db.session.add(new_item)
+    db.session.commit()
+    return 'Item added to pantry'
+
 
 @app.route('/delete_items', methods=['POST'])
 def delete_items():

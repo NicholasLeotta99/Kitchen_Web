@@ -1,12 +1,11 @@
-# Pantry and Recipe Book Application
+# Digital Kitchen Manager
 
-This application allows users to manage their pantry items and recipes.
+This application allows users to manage their kitchen through an interactive webpage. Users can view all pantry items and recipes in a recipe book. Pantry items can be added, updated, and deleted.
 
 ## Features
 
-- View all pantry items
-- View all recipes in a recipe book
-- Recipes are displayed like playing cards
+- Monitor pantry items
+- Collect recipes
 
 ## Setup
 
