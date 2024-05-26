@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+
+{% block title %}
+Open Pantry
+{% endblock %}
+
+{% block content %}
+<section id="showcase">
+    <div class="form-container">
+        <h1>Pantry</h1>
+        <button class='button' id="delete-button">Delete</button>
+        <table class="form-content">
+            <thead>
+                <tr>
+                    <th></th> <!-- Add a column for the checkboxes -->
+                    <th>Item Name</th>
+                    <th>Quantity</th>
+                    <!-- Add more columns as needed -->
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in items %}
+                <tr>
+                    <td><input type="checkbox" class="delete-checkbox" data-item-id="{{ item.id }}"></td>
+                    <td>{{ item.name }}</td>
+                    <td>{{ item.quantity }}</td>
+                    <!-- Add more cells as needed -->
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</section>
+<script>
+    document.getElementById('delete-button').addEventListener('click', async () => {
+        // Get all checkboxes
+        const checkboxes = document.querySelectorAll('.delete-checkbox');
+        
+        // Get the IDs of the selected items
+        const selectedIds = Array.from(checkboxes)
+            .filter(checkbox => checkbox.checked)
+            .map(checkbox => checkbox.dataset.itemId);
+        
+        // Send a request to the server to delete the selected items
+        const response = await fetch('/delete_items', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ ids: selectedIds }),
+        });
+        
+        // Check the response
+        if (response.ok) {
+            // If the request was successful, reload the page
+            location.reload();
+        } else {
+            // If the request failed, log the error
+            console.error('Failed to delete items:', await response.text());
+        }
+    });
+    </script>
+{% endblock %}

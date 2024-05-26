@@ -1,0 +1,33 @@
+<!-- base.html -->
+<!-- 
+This is the base template for the Kitchen Manager application. 
+It includes the common elements found across all pages such as the header, navigation, and linking to the CSS stylesheet.
+Individual page templates will extend this base template and fill in the 'title' and 'content' blocks with page-specific content.
+-->
+
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}">
+    <title>{% block title %}{% endblock %}</title>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div id="branding">
+                <h1>Kitchen Manager</h1>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="/lets_cook">Let's Cook</a></li>
+                    <li><a href="/open_pantry">Open Pantry</a></li>
+                    <li><a href="/enter_groceries">Enter Groceries</a></li>
+                    <li><a href="/recipe_book">Recipe Book</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    {% block content %}{% endblock %}
+</body>
+</html>
