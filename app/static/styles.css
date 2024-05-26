@@ -12,11 +12,11 @@ body {
 }
 
 header {
-    background: #50b3a2;
-    color: white;
+    background: #37ac98;
+    color: rgb(187, 187, 187);
     padding-top: 30px;
     min-height: 70px;
-    border-bottom: #e8491d 3px solid;
+    border-bottom: #ff734d 3px solid;
 }
 
 header a {
@@ -37,11 +37,11 @@ header li {
     padding: 0 20px 0 20px;
 }
 
-header #branding {
+header #banner {
     float: left;
 }
 
-header #branding h1 {
+header #banner h1 {
     margin: 0;
 }
 
